@@ -1,0 +1,49 @@
+load("@rules_proto//proto:defs.bzl", "proto_library")
+load("@rules_proto_grpc//python:defs.bzl", "python_grpc_library", "python_proto_library")
+
+proto_library(
+    name = "greeter_proto",
+    srcs = ["src/main/proto/greeter.proto"],
+    visibility = ["//visibility:public"],
+)
+
+python_proto_library(
+    name = "greeter_python_proto",
+    protos = [":greeter_proto"],
+    visibility = ["//visibility:public"],
+    #    deps = ["@com_google_protobuf//:protobuf_python"],
+    deps = [
+        "@com_google_protobuf//:any_proto",
+    ],
+)
+
+python_grpc_library(
+    name = "greeter_python_grpc",
+    protos = [":greeter_proto"],
+#    deps = [
+#        "@com_google_protobuf//:any_proto",
+#    ],
+)
+
+#
+#assemble_maven(
+#    name = "assemble-maven",
+#    #    version_file = "//central-sync:VERSION",
+#    license = "mit",
+#    project_name = "cdp pb",
+#    target = ":cdp_event_java_proto",
+#)
+
+#exports_files([
+#    "src/main/resources/deployment.properties",
+#])
+#
+#deploy_maven(
+#    name = "deploy-maven",
+#    release = "http://localhost:8081/repository/bazel-mvn-repo/",
+#    snapshot = "http://localhost:8081/repository/bazel-mvn-repo/",
+#    #        package = "code.showme.pinecone.cdp.event",
+#    target = ":assemble-maven",
+#    #    应该通过命令行覆盖
+#    #    deployment_properties = ":deployment.properties"
+#)
